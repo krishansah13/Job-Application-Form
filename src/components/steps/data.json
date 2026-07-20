@@ -28,6 +28,38 @@
                 "placeholder" : "Enter Your City Name"
             }
         ]
+    },
+    "education" : {
+        "labels" : [
+            "Highest Qualification",
+            "Instituition Name",
+            "Graduation Year",
+            "Percentage/Grade"
+        ],
+        "info" : [
+            {
+                "name" : "qualification",
+                "type":"select",
+                "options" : [
+                    "Please Select Your Qualification","10th", "12th", "Diploma", "Bachelor's Degree", "Master's Degree", "PhD"
+                ]
+            },
+            {
+                "name" : "institution", 
+                "type" : "text",
+                "placeholder" : "Enter Your Instituition Name"
+            },
+            {   
+                "name" : "graduationYear",
+                "type" : "number",
+                "placeholder":"Enter Your Graduation Year"
+            },
+            {
+                "name": "percentage",
+                "type": "text",
+                "placeholder": "Enter Percentage/Grade(Specify GPA)"
+            }
+        ]
     }
 }
 

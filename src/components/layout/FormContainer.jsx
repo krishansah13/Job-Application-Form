@@ -14,6 +14,7 @@ const FormContainer = () => {
     ReviewAndSubmit,
   ];
 
+
   const [formData, setFormData] = useState(() => {
     const savedData = localStorage.getItem("formData");
     return savedData
@@ -76,6 +77,10 @@ const FormContainer = () => {
             </div>
           ))}
         </div>
+
+          <p className="text-center text-gray-500 mb-8">
+
+          </p>
 
         {/* Current Form */}
         <CurrentPage

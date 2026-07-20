@@ -14,6 +14,9 @@ const PersonalInfo = ({ formData, setFormData, errors }) => {
 
   return (
     <div className="flex flex-col gap-4">
+      <h1 className = "text-center font-bold text-xl">
+        PERSONAL INFORMATION
+      </h1>
       {data.personalInfo.info.map((field, index) => (
         <div key={field.name}>
           <label className="font-bold text-cyan-700">
