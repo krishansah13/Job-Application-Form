@@ -1,0 +1,33 @@
+{
+    "personalInfo" : {
+        "labels" : [
+            "Full Name",
+            "Email",
+            "Phone Number", 
+            "City"
+        ],
+        "info" : [
+            {
+                "name" : "fullname",
+                "type" : "text",
+                "placeholder" : "Enter Your Full Name"
+            }, 
+            {
+                "name" : "email",
+                "type" : "email",
+                "placeholder" : "Enter Your Email"
+            },
+            {
+                "name" : "phone", 
+                "type" : "tel",
+                "placeholder" : "Enter Your Number"
+            },
+            {
+                "name" : "city",
+                "type" : "text",
+                "placeholder" : "Enter Your City Name"
+            }
+        ]
+    }
+}
+
