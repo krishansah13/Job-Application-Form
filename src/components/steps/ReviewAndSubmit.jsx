@@ -9,53 +9,78 @@ const ReviewAndSubmit = () => {
     education: "Education",
     skillsAndExperience: "Skills And Experience",
   };
+
   return (
-    <div>
-      <h1 className="text-center font-bold text-xl mb-5">
+    <div className="w-full">
+      <h1 className="text-center font-bold text-2xl text-gray-800 mb-6">
         Review Your Submission
       </h1>
 
       {Object.entries(schema).map(([sectionName, section]) => (
-        <div key={sectionName} className="border rounded p-4 mb-4">
-          <h2 className="text-lg font-semibold capitalize mb-4">
+        <div
+          key={sectionName}
+          className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 mb-5"
+        >
+          {/* Section Header */}
+          <h2 className="text-lg font-bold text-cyan-700 mb-4 border-b pb-2">
             {nameMap[sectionName]}
           </h2>
 
-          {section.info.map((field, index) => (
-            <div
-              key={field.name}
-              className="flex justify-between border-b py-2"
-            >
-              <span className="font-medium">{section.labels[index]}</span>
+          {/* Fields */}
+          <div className="space-y-3">
+            {section.info.map((field, index) => (
+              <div
+                key={field.name}
+                className="
+                  flex flex-col gap-1
+                  sm:flex-row sm:justify-between sm:items-center
+                  border-b last:border-b-0 pb-3
+                "
+              >
+                <span className="font-semibold text-gray-700">
+                  {section.labels[index]}
+                </span>
 
-              <span className="text-right">
-                {field.name === "skills" ? (
-                  formData.skills?.length ? (
-                    <div className="flex flex-wrap justify-end gap-2">
-                      {formData.skills.map((skill, index) => (
-                        <span
-                          key={index}
-                          className="bg-amber-100 px-2 py-1 rounded-md text-sm"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
+                <span className="text-gray-600 sm:text-right wrap-break-words">
+                  {field.name === "skills" ? (
+                    formData.skills?.length ? (
+                      <div className="flex flex-wrap gap-2 sm:justify-end">
+                        {formData.skills.map((skill, index) => (
+                          <span
+                            key={index}
+                            className="
+                              bg-cyan-100 
+                              text-cyan-700
+                              px-3 py-1
+                              rounded-full
+                              text-sm
+                              font-medium
+                            "
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      "-"
+                    )
+                  ) : field.type === "checkbox" ? (
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-medium ${
+                        formData[field.name]
+                          ? "bg-green-100 text-green-700"
+                          : "bg-gray-100 text-gray-600"
+                      }`}
+                    >
+                      {formData[field.name] ? "Yes" : "No"}
+                    </span>
                   ) : (
-                    "-"
-                  )
-                ) : field.type === "checkbox" ? (
-                  formData[field.name] ? (
-                    "Yes"
-                  ) : (
-                    "No"
-                  )
-                ) : (
-                  formData[field.name] || "-"
-                )}
-              </span>
-            </div>
-          ))}
+                    formData[field.name] || "-"
+                  )}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       ))}
     </div>
