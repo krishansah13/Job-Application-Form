@@ -1,9 +1,16 @@
-import React from 'react'
+import React from 'react';
 
-const TextArea = () => {
+const TextArea = (props) => {
   return (
-    <div>TextArea</div>
-  )
-}
+    <textarea
+      className="border-2 rounded-xl w-full px-3 py-2"
+      name={props.name}
+      placeholder={props.placeholder}
+      value={props.value || ""}
+      onChange={props.onChange}
+      rows={4}
+    />
+  );
+};
 
-export default TextArea
+export default TextArea;

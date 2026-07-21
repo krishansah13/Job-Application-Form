@@ -28,7 +28,7 @@ const FormContainer = () => {
           institution: "",
           graduationYear: "",
           percentage: "",
-          skills: "",
+          skills: [],
           experience: "",
           jobTitle: "",
           coverNote: "",

@@ -1,65 +1,118 @@
 {
-    "personalInfo" : {
-        "labels" : [
-            "Full Name",
-            "Email",
-            "Phone Number", 
-            "City"
-        ],
-        "info" : [
-            {
-                "name" : "fullName",
-                "type" : "text",
-                "placeholder" : "Enter Your Full Name"
-            }, 
-            {
-                "name" : "email",
-                "type" : "email",
-                "placeholder" : "Enter Your Email"
-            },
-            {
-                "name" : "phone", 
-                "type" : "tel",
-                "placeholder" : "Enter Your Number"
-            },
-            {
-                "name" : "city",
-                "type" : "text",
-                "placeholder" : "Enter Your City Name"
-            }
+  "personalInfo": {
+    "labels": ["Full Name", "Email", "Phone Number", "City"],
+    "info": [
+      {
+        "name": "fullName",
+        "type": "text",
+        "placeholder": "Enter Your Full Name"
+      },
+      {
+        "name": "email",
+        "type": "email",
+        "placeholder": "Enter Your Email"
+      },
+      {
+        "name": "phone",
+        "type": "tel",
+        "placeholder": "Enter Your Number"
+      },
+      {
+        "name": "city",
+        "type": "text",
+        "placeholder": "Enter Your City Name"
+      }
+    ]
+  },
+  "education": {
+    "labels": [
+      "Highest Qualification",
+      "Instituition Name",
+      "Graduation Year",
+      "Percentage/Grade"
+    ],
+    "info": [
+      {
+        "name": "qualification",
+        "type": "select",
+        "options": [
+          "Please Select Your Qualification",
+          "10th",
+          "12th",
+          "Diploma",
+          "Bachelor's Degree",
+          "Master's Degree",
+          "PhD"
         ]
-    },
-    "education" : {
-        "labels" : [
-            "Highest Qualification",
-            "Instituition Name",
-            "Graduation Year",
-            "Percentage/Grade"
-        ],
-        "info" : [
-            {
-                "name" : "qualification",
-                "type":"select",
-                "options" : [
-                    "Please Select Your Qualification","10th", "12th", "Diploma", "Bachelor's Degree", "Master's Degree", "PhD"
-                ]
-            },
-            {
-                "name" : "institution", 
-                "type" : "text",
-                "placeholder" : "Enter Your Instituition Name"
-            },
-            {   
-                "name" : "graduationYear",
-                "type" : "number",
-                "placeholder":"Enter Your Graduation Year"
-            },
-            {
-                "name": "percentage",
-                "type": "text",
-                "placeholder": "Enter Percentage/Grade(Specify GPA)"
-            }
-        ]
-    }
+      },
+      {
+        "name": "institution",
+        "type": "text",
+        "placeholder": "Enter Your Instituition Name"
+      },
+      {
+        "name": "graduationYear",
+        "type": "number",
+        "placeholder": "Enter Your Graduation Year"
+      },
+      {
+        "name": "percentage",
+        "type": "text",
+        "placeholder": "Enter Percentage/Grade(Specify GPA)"
+      }
+    ]
+  },
+  "skillsAndExperience": {
+    "labels": [
+      "Skills",
+      "Years Of Experience",
+      "Current/Last Job Title",
+      "Joining Date",
+      "Working Here",
+      "Leaving Date",
+      "Tentative Notice Period In Months",
+      "Cover Note"
+    ],
+    "info": [
+      {
+        "name": "skills",
+        "type": "text",
+        "placeholder": "Enter your skill"
+      },
+      {
+        "name": "experience",
+        "type": "number",
+        "placeholder": "Enter your years of experience"
+      },
+      {
+        "name": "jobTitle",
+        "type": "text",
+        "placeholder": "Enter your current or last job title"
+      },
+      {
+        "name": "joiningDate",
+        "type": "date",
+        "placeholder": "Select your joining date"
+      },
+      {
+        "name": "currentlyWorking",
+        "type": "checkbox"
+      },
+      {
+        "name": "leavingDate",
+        "type": "date",
+        "placeholder": "Select your leaving date"
+      },
+      {
+        "name": "noticePeriod",
+        "type": "text",
+        "placeholder": "Enter your tentative notice period"
+      },
+      {
+        "name": "coverNote",
+        "type": "textarea",
+        "placeholder": "Enter your cover note"
+      }
+    ]
+  }
 }
-

@@ -46,6 +46,26 @@ const validation = (page, formData) => {
       }
 
       break;
+
+    case 2:
+        if (!formData.skills || formData.skills.length === 0 || formData.skills.every((skill) => skill.trim() === "")) {
+          errors.skills = "At least one skill is needed";
+        }
+
+        if(!formData.experience || formData.experience < 0 || formData.experience >= 100) {
+          errors.experience = "Enter A Valid Experience";
+        }
+
+        if(!formData.jobTitle) errors.jobTitle = "Job Title is Required"
+
+        if(!formData.joiningDate) errors.joiningDate = "Joining Date is required"
+        
+        if(!formData.currentlyWorking && !formData.leavingDate) errors.leavingDate = "Leaving Date is Required"
+
+        if(formData.currentlyWorking && !formData.noticePeriod) errors.noticePeriod = "Notice Period in months is required"
+
+        if(!formData.coverNote) errors.coverNote = "You Cannot Leave Cover Note Empty"
+    break;
   }
 
   return errors;
