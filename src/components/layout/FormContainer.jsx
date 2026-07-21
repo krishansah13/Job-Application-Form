@@ -62,8 +62,8 @@ const FormContainer = () => {
         </>
       ) : (
         <>
-          <div className="min-h-screen flex items-center justify-center px-4">
-            <div className="w-full max-w-3xl bg-white rounded-2xl shadow-xl p-8">
+          <div className="min-h-screen flex items-center justify-center px-4 py-4 w-full md:w-1/2 mx-auto">
+            <div className="w-full bg-white rounded-2xl shadow-xl p-8">
               <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">
                 Job Application Form
               </h1>

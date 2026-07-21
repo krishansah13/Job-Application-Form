@@ -3,7 +3,7 @@ import FormContainer from "./components/layout/FormContainer";
 
 const App = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-linear-to-r from-cyan-800 via-zinc-500 to-white">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[url('assets/image.png')] bg-cover bg-center">
       <FormContainer />
     </div>
   );
