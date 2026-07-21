@@ -92,7 +92,7 @@ const FormContainer = () => {
                              hover:bg-gray-400 disabled:opacity-50 
                              disabled:cursor-not-allowed transition disabled:hidden"
                 >
-                  Previous
+                  {"← Previous"}
                 </button>
 
                 <button
@@ -115,7 +115,7 @@ const FormContainer = () => {
                       : "bg-blue-600 text-white hover:bg-blue-700"
                   }`}
                 >
-                  {page === pages.length - 1 ? "Submit" : "Next"}
+                  {page === pages.length - 1 ? "Submit" : "Next ➔"}
                 </button>
               </div>
             </div>
