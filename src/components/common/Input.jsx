@@ -13,8 +13,8 @@ const Input = ({
 }) => {
   const inputClass =
     type === "checkbox"
-      ? `h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500 cursor-pointer ${
-          disabled ? "opacity-50 cursor-not-allowed" : ""
+      ? `mt-2 h-4 w-5 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500 cursor-pointer ${
+          disabled ? "opacity-50 cursor-not-allowed text-gray-200" : ""
         }`
       : `w-full border rounded-lg px-3 py-2 ${
           disabled ? "bg-gray-100 cursor-not-allowed text-gray-300" : ""

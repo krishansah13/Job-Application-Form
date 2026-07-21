@@ -82,12 +82,15 @@ const FormContainer = () => {
                 setFormData={setFormData}
                 errors={errors}
               />
+
               {/* Navigation */}
               <div className="flex justify-between mt-8">
                 <button
                   onClick={() => setPageNumber((prev) => prev - 1)}
                   disabled={page === 0}
-                  className="px-6 py-2 rounded-lg bg-gray-300 text-gray-700 hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition disabled:hidden"
+                  className="px-6 py-2 rounded-lg bg-gray-300 text-gray-700 cursor-pointer
+                             hover:bg-gray-400 disabled:opacity-50 
+                             disabled:cursor-not-allowed transition disabled:hidden"
                 >
                   Previous
                 </button>
@@ -106,7 +109,7 @@ const FormContainer = () => {
                       setSubmitted(true);
                     }
                   }}
-                  className={`px-6 py-2 rounded-lg ${
+                  className={`px-6 py-2 rounded-lg cursor-pointer ${
                     page === pages.length - 1
                       ? "bg-green-600 text-white hover:bg-green-700"
                       : "bg-blue-600 text-white hover:bg-blue-700"
