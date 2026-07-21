@@ -5,10 +5,10 @@ const ReviewAndSubmit = () => {
   const formData = JSON.parse(localStorage.getItem("formData")) || {};
 
   const nameMap = {
-    "personalInfo" : "Personal Information", 
-    "education" : "Education", 
-    "skillsAndExperience":"Skills And Experience"
-  }
+    personalInfo: "Personal Information",
+    education: "Education",
+    skillsAndExperience: "Skills And Experience",
+  };
   return (
     <div>
       <h1 className="text-center font-bold text-xl mb-5">
@@ -26,16 +26,33 @@ const ReviewAndSubmit = () => {
               key={field.name}
               className="flex justify-between border-b py-2"
             >
-              <span className="font-medium">
-                {section.labels[index]}
-              </span>
+              <span className="font-medium">{section.labels[index]}</span>
 
-              <span>
-                {field.type === "checkbox"
-                  ? formData[field.name]
-                    ? "Yes"
-                    : "No"
-                  : formData[field.name] || "-"}
+              <span className="text-right">
+                {field.name === "skills" ? (
+                  formData.skills?.length ? (
+                    <div className="flex flex-wrap justify-end gap-2">
+                      {formData.skills.map((skill, index) => (
+                        <span
+                          key={index}
+                          className="bg-amber-100 px-2 py-1 rounded-md text-sm"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    "-"
+                  )
+                ) : field.type === "checkbox" ? (
+                  formData[field.name] ? (
+                    "Yes"
+                  ) : (
+                    "No"
+                  )
+                ) : (
+                  formData[field.name] || "-"
+                )}
               </span>
             </div>
           ))}
