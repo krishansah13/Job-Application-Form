@@ -1,56 +1,20 @@
 import React, { useState } from "react";
+
 import data from "./data.json";
-import TextArea from "../common/TextArea";
 import Input from "../common/Input";
+import TextArea from "../common/TextArea";
+
+import {
+  handleChange,
+  addSkill,
+  removeSkill,
+} from "../utils/skillsAndExperience";
 
 const SkillsAndExperience = ({ formData, setFormData, errors }) => {
   const fields = data.skillsAndExperience;
   const isFresher = Number(formData.experience || 0) === 0;
 
   const [skillInput, setSkillInput] = useState("");
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-
-    setFormData((prev) => {
-      const updated = {
-        ...prev,
-        [name]: type === "checkbox" ? checked : value,
-      };
-
-      if (name === "currentlyWorking" && checked) {
-        updated.leavingDate = "";
-      }
-
-      if (isFresher) {
-        updated.joiningDate = "";
-        updated.leavingDate = "";
-        updated.checked = false;
-      }
-
-      return updated;
-    });
-  };
-
-  const addSkill = () => {
-    const trimmedSkill = skillInput.trim();
-
-    if (!trimmedSkill) return;
-
-    setFormData((prev) => ({
-      ...prev,
-      skills: [...(prev.skills || []), trimmedSkill],
-    }));
-
-    setSkillInput("");
-  };
-
-  const removeSkill = (index) => {
-    setFormData((prev) => ({
-      ...prev,
-      skills: prev.skills.filter((_, i) => i !== index),
-    }));
-  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -77,7 +41,9 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
 
                 <button
                   type="button"
-                  onClick={addSkill}
+                  onClick={() =>
+                    addSkill(skillInput, setSkillInput, setFormData, formData)
+                  }
                   className="bg-cyan-600 hover:bg-cyan-700 text-white px-5 rounded-lg cursor-pointer"
                 >
                   Add
@@ -95,7 +61,9 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
 
                     <button
                       type="button"
-                      onClick={() => removeSkill(skillIndex)}
+                      onClick={() =>
+                        removeSkill(skillIndex, setFormData, formData)
+                      }
                       className="text-red-600 font-bold hover:text-red-800 cursor-pointer"
                     >
                       ✕
@@ -122,12 +90,16 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
                 name={field.name}
                 placeholder={field.placeholder}
                 value={formData[field.name] || ""}
-                onChange={handleChange}
+                onChange={(e) =>
+                  handleChange(e, setFormData, formData, isFresher)
+                }
                 rows={4}
               />
             ) : field.type === "checkbox" ? (
-              <label className="w-full border rounded-lg px-4 py-3 flex items-center justify-between 
-              cursor-pointer hover:border-cyan-500 transition">
+              <label
+                className="w-full border rounded-lg px-4 py-3 flex items-center justify-between 
+              cursor-pointer hover:border-cyan-500 transition"
+              >
                 <span
                   className={
                     isFresher
@@ -142,7 +114,9 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
                   name={field.name}
                   type="checkbox"
                   checked={formData[field.name] || false}
-                  onChange={handleChange}
+                  onChange={(e) =>
+                    handleChange(e, setFormData, formData, isFresher)
+                  }
                   disabled={isFresher}
                 />
               </label>
@@ -152,7 +126,9 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
                 type={field.type}
                 placeholder={field.placeholder}
                 value={formData[field.name] || ""}
-                onChange={handleChange}
+                onChange={(e) =>
+                  handleChange(e, setFormData, formData, isFresher)
+                }
                 disabled={
                   (isFresher &&
                     [
