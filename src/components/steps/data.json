@@ -82,7 +82,7 @@
       {
         "name": "experience",
         "type": "number",
-        "placeholder": "Enter your years of experience"
+        "placeholder": "Enter your years of experience(0 if fresher)"
       },
       {
         "name": "jobTitle",
@@ -105,7 +105,7 @@
       },
       {
         "name": "noticePeriod",
-        "type": "text",
+        "type": "number",
         "placeholder": "Enter your tentative notice period"
       },
       {

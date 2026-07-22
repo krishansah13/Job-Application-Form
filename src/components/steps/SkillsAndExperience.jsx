@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import data from "./data.json";
 import TextArea from "../common/TextArea";
 import Input from "../common/Input";
 
 const SkillsAndExperience = ({ formData, setFormData, errors }) => {
   const fields = data.skillsAndExperience;
+  const isFresher = Number(formData.experience || 0) === 0;
+
+  const [skillInput, setSkillInput] = useState("");
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -15,38 +18,34 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
         [name]: type === "checkbox" ? checked : value,
       };
 
-      // Clear leaving date if currently working
       if (name === "currentlyWorking" && checked) {
         updated.leavingDate = "";
+      }
+
+      if (isFresher) {
+        updated.joiningDate = "";
+        updated.leavingDate = "";
+        updated.checked = false;
       }
 
       return updated;
     });
   };
 
-  // Update a particular skill
-  const handleSkillChange = (index, value) => {
-    setFormData((prev) => {
-      const updatedSkills = [...prev.skills];
-      updatedSkills[index] = value;
+  const addSkill = () => {
+    const trimmedSkill = skillInput.trim();
 
-      return {
-        ...prev,
-        skills: updatedSkills,
-      };
-    });
-  };
+    if (!trimmedSkill) return;
 
-  // Add another skill input
-  const addSkillField = () => {
     setFormData((prev) => ({
       ...prev,
-      skills: [...(prev.skills || []), ""],
+      skills: [...(prev.skills || []), trimmedSkill],
     }));
+
+    setSkillInput("");
   };
 
-  // Remove a skill input
-  const removeSkillField = (index) => {
+  const removeSkill = (index) => {
     setFormData((prev) => ({
       ...prev,
       skills: prev.skills.filter((_, i) => i !== index),
@@ -58,48 +57,55 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
       <h1 className="text-center font-bold text-xl">SKILLS & EXPERIENCE</h1>
 
       {fields.info.map((field, index) => {
-        // Special handling for Skills
         if (field.name === "skills") {
           return (
             <div key={field.name} className="mb-4">
-              {field.type !== "checkbox" && (
-                <label className="font-bold text-cyan-700 block mb-1">
-                  {fields.labels[index]}
-                </label>
-              )}
-              {(formData.skills || []).map((skill, skillIndex) => (
-                <div key={skillIndex} className="flex items-center gap-2 mb-2">
+              <label className="font-bold text-cyan-700 block mb-2">
+                {fields.labels[index]}
+              </label>
+
+              {/* Skill Input */}
+              <div className="flex gap-2">
+                <div className="flex-1">
                   <Input
                     type="text"
                     placeholder="Enter your skill"
-                    value={skill}
-                    onChange={(e) =>
-                      handleSkillChange(skillIndex, e.target.value)
-                    }
+                    value={skillInput}
+                    onChange={(e) => setSkillInput(e.target.value)}
                   />
+                </div>
 
-                  {(formData.skills || []).length > 1 && (
+                <button
+                  type="button"
+                  onClick={addSkill}
+                  className="bg-cyan-600 hover:bg-cyan-700 text-white px-5 rounded-lg cursor-pointer"
+                >
+                  Add
+                </button>
+              </div>
+
+              {/* Added Skills */}
+              <div className="flex flex-wrap gap-2 mt-4">
+                {(formData.skills || []).map((skill, skillIndex) => (
+                  <div
+                    key={skillIndex}
+                    className="flex items-center gap-2 bg-cyan-100 text-cyan-700 px-3 py-2 rounded-full"
+                  >
+                    <span>{skill}</span>
+
                     <button
                       type="button"
-                      onClick={() => removeSkillField(skillIndex)}
-                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded"
+                      onClick={() => removeSkill(skillIndex)}
+                      className="text-red-600 font-bold hover:text-red-800 cursor-pointer"
                     >
-                      Remove
+                      ✕
                     </button>
-                  )}
-                </div>
-              ))}
-
-              <button
-                type="button"
-                onClick={addSkillField}
-                className="mt-2 bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded"
-              >
-                + Add Skills
-              </button>
+                  </div>
+                ))}
+              </div>
 
               {errors.skills && (
-                <p className="text-red-500 text-sm mt-1">{errors.skills}</p>
+                <p className="text-red-500 text-sm mt-2">{errors.skills}</p>
               )}
             </div>
           );
@@ -120,17 +126,25 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
                 rows={4}
               />
             ) : field.type === "checkbox" ? (
-              <label className="w-full border rounded-lg px-4 py-3 flex items-center gap-3 cursor-pointer hover:border-cyan-500 transition">
+              <label className="w-full border rounded-lg px-4 py-3 flex items-center justify-between 
+              cursor-pointer hover:border-cyan-500 transition">
+                <span
+                  className={
+                    isFresher
+                      ? "text-gray-300 font-medium"
+                      : "text-gray-700 font-medium"
+                  }
+                >
+                  Currently Working Here
+                </span>
+
                 <Input
                   name={field.name}
                   type="checkbox"
                   checked={formData[field.name] || false}
                   onChange={handleChange}
+                  disabled={isFresher}
                 />
-
-                <span className="text-gray-700 font-medium">
-                  Currently Working Here
-                </span>
               </label>
             ) : (
               <Input
@@ -140,6 +154,14 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
                 value={formData[field.name] || ""}
                 onChange={handleChange}
                 disabled={
+                  (isFresher &&
+                    [
+                      "joiningDate",
+                      "leavingDate",
+                      "currentlyWorking",
+                      "jobTitle",
+                      "noticePeriod",
+                    ].includes(field.name)) ||
                   (field.name === "leavingDate" && formData.currentlyWorking) ||
                   (field.name === "noticePeriod" && !formData.currentlyWorking)
                 }

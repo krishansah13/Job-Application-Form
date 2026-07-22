@@ -25,8 +25,57 @@ This project was built as part of a **2-day React sprint** to practice core Reac
 ## 📁 Folder Structure
 
 ```text
-
+job-application-form/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   │   ├── common/
+│   │   │   ├── Input.jsx
+│   │   │   ├── Select.jsx
+│   │   │   └── TextArea.jsx
+│   │   ├── layout/
+│   │   │   ├── FormContainer.jsx
+│   │   │   ├── ProgressBar.jsx
+│   │   │   ├── StepIndicator.jsx
+│   │   │   └── SuccessPage.jsx
+│   │   └── steps/
+│   │       ├── data.json
+│   │       ├── PersonalInfo.jsx
+│   │       ├── EducationDetails.jsx
+│   │       ├── SkillsAndExperience.jsx
+│   │       └── ReviewAndSubmit.jsx
+│   ├── utils/
+│   │   └── validation.js
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
+├── .gitignore
+├── eslint.config.js
+├── index.html
+├── package.json
+├── package-lock.json
+├── README.md
+└── vite.config.js
 ```
+
+## 📂 Structure Explanation
+
+| Folder/File | Purpose |
+|-------------|---------|
+| **public/** | Static assets served directly by Vite. |
+| **src/assets/** | Stores images, icons, fonts, and other project assets. |
+| **src/components/common/** | Reusable UI components like `Input`, `Select`, and `TextArea`. |
+| **src/components/layout/** | Layout-related components such as the form container, progress bar, step indicator, and success page. |
+| **src/components/steps/** | Individual multi-step form pages and the shared `data.json` configuration. |
+| **src/utils/** | Utility functions such as form validation logic. |
+| **App.jsx** | Root application component. |
+| **main.jsx** | Application entry point where React is mounted. |
+| **index.css** | Global styles and Tailwind CSS imports. |
+| **vite.config.js** | Vite configuration file. |
+| **eslint.config.js** | ESLint configuration for code quality. |
+| **package.json** | Project metadata, scripts, and dependencies. |
+| **README.md** | Project documentation. |
 
 ### Structure Explanation
 
