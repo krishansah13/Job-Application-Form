@@ -30,7 +30,7 @@ const FormContainer = () => {
           graduationYear: "",
           percentage: "",
           skills: [],
-          experience: "",
+          experience: "0",
           jobTitle: "",
           coverNote: "",
         };

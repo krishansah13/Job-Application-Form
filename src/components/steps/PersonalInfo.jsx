@@ -2,7 +2,7 @@ import React from "react";
 import Input from "../common/Input";
 import data from "./data.json";
 
-const PersonalInfo = ({ formData, setFormData, errors, setErrors}) => {
+const PersonalInfo = ({ formData, setFormData, errors, setErrors }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -25,6 +25,7 @@ const PersonalInfo = ({ formData, setFormData, errors, setErrors}) => {
         <div key={field.name}>
           <label className="font-bold text-cyan-700">
             {data.personalInfo.labels[index]}
+            <span className="text-red-500 text-xs align-super">*</span>
           </label>
 
           <Input

@@ -26,6 +26,7 @@ const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
             <div key={field.name} className="mb-4">
               <label className="font-bold text-cyan-700 block mb-2">
                 {fields.labels[index]}
+                  <span className="text-red-500 text-xs align-super">*</span>
               </label>
 
               {/* Skill Input */}
@@ -83,6 +84,7 @@ const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
           <div key={field.name} className="mb-4">
             <label className="font-bold text-cyan-700 block mb-1">
               {fields.labels[index]}
+              {(formData.experience !== "0" || field.name === "coverNote" ) && <span className="text-red-500 text-xs align-super">*</span>}
             </label>
 
             {field.type === "textarea" ? (
