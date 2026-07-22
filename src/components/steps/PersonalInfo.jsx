@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Input from "../common/Input";
 import data from "./data.json";
+import useDebounce from "../hooks/useDebounce";
 
 const PersonalInfo = ({ formData, setFormData, errors, setErrors }) => {
+
+  const [localData, setLocalData] = useState(formData);
+
+  const debounceData = useDebounce(localData);
+
+  useEffect(()=>{
+    setFormData(debounceData);
+  },[debounceData]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setFormData((prev) => ({
+    setLocalData((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -32,7 +42,7 @@ const PersonalInfo = ({ formData, setFormData, errors, setErrors }) => {
             name={field.name}
             type={field.type}
             placeholder={field.placeholder}
-            value={formData[field.name] || ""}
+            value={localData[field.name] || ""}
             onChange={handleChange}
           />
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import data from "./data.json";
 import Input from "../common/Input";
@@ -9,12 +9,21 @@ import {
   addSkill,
   removeSkill,
 } from "../utils/skillsAndExperience";
+import useDebounce from "../hooks/useDebounce";
 
 const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
   const fields = data.skillsAndExperience;
   const isFresher = Number(formData.experience || 0) === 0;
 
   const [skillInput, setSkillInput] = useState("");
+
+  const [localData, setLocalData] = useState(formData);
+
+  const debounceData = useDebounce(localData);
+
+  useEffect(() => {
+    setFormData(debounceData);
+  }, [debounceData]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -26,7 +35,7 @@ const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
             <div key={field.name} className="mb-4">
               <label className="font-bold text-cyan-700 block mb-2">
                 {fields.labels[index]}
-                  <span className="text-red-500 text-xs align-super">*</span>
+                <span className="text-red-500 text-xs align-super">*</span>
               </label>
 
               {/* Skill Input */}
@@ -37,7 +46,18 @@ const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
                     placeholder="Enter your skill"
                     value={skillInput}
                     onChange={(e) => setSkillInput(e.target.value)}
+                    onKeyDown={(e) => {
+                    console.log(e.key);
+                    e.key === "Enter" &&
+                      addSkill(
+                        skillInput,
+                        setSkillInput,
+                        setFormData,
+                        formData,
+                      );
+                  }}
                   />
+                  
                 </div>
 
                 <button
@@ -45,6 +65,7 @@ const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
                   onClick={() =>
                     addSkill(skillInput, setSkillInput, setFormData, formData)
                   }
+                  
                   className="bg-cyan-600 hover:bg-cyan-700 text-white px-5 rounded-lg cursor-pointer"
                 >
                   Add
@@ -84,16 +105,18 @@ const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
           <div key={field.name} className="mb-4">
             <label className="font-bold text-cyan-700 block mb-1">
               {fields.labels[index]}
-              {(formData.experience !== "0" || field.name === "coverNote" ) && <span className="text-red-500 text-xs align-super">*</span>}
+              {(formData.experience !== "0" || field.name === "coverNote") && (
+                <span className="text-red-500 text-xs align-super">*</span>
+              )}
             </label>
 
             {field.type === "textarea" ? (
               <TextArea
                 name={field.name}
                 placeholder={field.placeholder}
-                value={formData[field.name] || ""}
+                value={localData[field.name] || ""}
                 onChange={(e) =>
-                  handleChange(e, setFormData, formData, isFresher, setErrors)
+                  handleChange(e, setLocalData, formData, isFresher, setErrors)
                 }
                 rows={4}
               />
@@ -115,9 +138,15 @@ const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
                 <Input
                   name={field.name}
                   type="checkbox"
-                  checked={formData[field.name] || false}
+                  checked={localData[field.name] || false}
                   onChange={(e) =>
-                    handleChange(e, setFormData, formData, isFresher, setErrors)
+                    handleChange(
+                      e,
+                      setLocalData,
+                      localData,
+                      isFresher,
+                      setErrors,
+                    )
                   }
                   disabled={isFresher}
                 />
@@ -127,9 +156,9 @@ const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
                 name={field.name}
                 type={field.type}
                 placeholder={field.placeholder}
-                value={formData[field.name] || ""}
+                value={localData[field.name] || ""}
                 onChange={(e) =>
-                  handleChange(e, setFormData, formData, isFresher, setErrors)
+                  handleChange(e, setLocalData, localData, isFresher, setErrors)
                 }
                 disabled={
                   (isFresher &&
