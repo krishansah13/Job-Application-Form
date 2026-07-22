@@ -35,7 +35,7 @@ const handleChange = (event, setFormData, formData, isFresher, setErrors) => {
 
     setFormData((prev) => ({
       ...prev,
-      skills: [...(prev.skills || []), trimmedSkill],
+      skills: [...new Set([...(prev.skills || []), trimmedSkill])],
     }));
 
     setSkillInput("");
