@@ -1,7 +1,7 @@
-const handleChange = (event, setFormData, formData, isFresher, setErrors) => {
+const handleChange = (event, setLocalData, localData, isFresher, setErrors) => {
     const { name, value, type, checked } = event.target;
 
-    setFormData((prev) => {
+    setLocalData((prev) => {
       const updated = {
         ...prev,
         [name]: type === "checkbox" ? checked : value,
@@ -27,13 +27,13 @@ const handleChange = (event, setFormData, formData, isFresher, setErrors) => {
     });
 };
 
-  const addSkill = (skillInput, setSkillInput, setFormData, skills) => {
+  const addSkill = (skillInput, setSkillInput, setLocalData, skills) => {
     console.log(skillInput);
     const trimmedSkill = skillInput.trim();
 
     if (!trimmedSkill) return;
 
-    setFormData((prev) => ({
+    setLocalData((prev) => ({
       ...prev,
       skills: [...new Set([...(prev.skills || []), trimmedSkill])],
     }));
@@ -41,8 +41,8 @@ const handleChange = (event, setFormData, formData, isFresher, setErrors) => {
     setSkillInput("");
   };
 
-  const removeSkill = (index, setFormData, formData) => {
-    setFormData((prev) => ({
+  const removeSkill = (index, setLocalData, localData) => {
+    setLocalData((prev) => ({
       ...prev,
       skills: prev.skills.filter((_, i) => i !== index),
     }));

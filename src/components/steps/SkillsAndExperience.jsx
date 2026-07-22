@@ -52,8 +52,8 @@ const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
                       addSkill(
                         skillInput,
                         setSkillInput,
-                        setFormData,
-                        formData,
+                        setLocalData,
+                        localData,
                       );
                   }}
                   />
@@ -63,7 +63,7 @@ const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
                 <button
                   type="button"
                   onClick={() =>
-                    addSkill(skillInput, setSkillInput, setFormData, formData)
+                    addSkill(skillInput, setSkillInput, setLocalData, localData)
                   }
                   
                   className="bg-cyan-600 hover:bg-cyan-700 text-white px-5 rounded-lg cursor-pointer"
@@ -74,7 +74,7 @@ const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
 
               {/* Added Skills */}
               <div className="flex flex-wrap gap-2 mt-4">
-                {(formData.skills || []).map((skill, skillIndex) => (
+                {(localData.skills || []).map((skill, skillIndex) => (
                   <div
                     key={skillIndex}
                     className="flex items-center gap-2 bg-cyan-100 text-cyan-700 px-3 py-2 rounded-full"
@@ -84,7 +84,7 @@ const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
                     <button
                       type="button"
                       onClick={() =>
-                        removeSkill(skillIndex, setFormData, formData)
+                        removeSkill(skillIndex, setLocalData, localData)
                       }
                       className="text-red-600 font-bold hover:text-red-800 cursor-pointer"
                     >
@@ -105,7 +105,7 @@ const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
           <div key={field.name} className="mb-4">
             <label className="font-bold text-cyan-700 block mb-1">
               {fields.labels[index]}
-              {(formData.experience !== "0" || field.name === "coverNote") && (
+              {(field.name === "experience" || field.name === "coverNote" || localData.experience !== "0") && (
                 <span className="text-red-500 text-xs align-super">*</span>
               )}
             </label>
@@ -116,7 +116,7 @@ const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
                 placeholder={field.placeholder}
                 value={localData[field.name] || ""}
                 onChange={(e) =>
-                  handleChange(e, setLocalData, formData, isFresher, setErrors)
+                  handleChange(e, setLocalData, localData, isFresher, setErrors)
                 }
                 rows={4}
               />
@@ -169,12 +169,12 @@ const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
                       "jobTitle",
                       "noticePeriod",
                     ].includes(field.name)) ||
-                  (field.name === "leavingDate" && formData.currentlyWorking) ||
-                  (field.name === "noticePeriod" && !formData.currentlyWorking)
+                  (field.name === "leavingDate" && localData.currentlyWorking) ||
+                  (field.name === "noticePeriod" && !localData.currentlyWorking)
                 }
                 min={
                   field.name === "leavingDate"
-                    ? formData.joiningDate || undefined
+                    ? localData.joiningDate || undefined
                     : undefined
                 }
                 max={
