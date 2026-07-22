@@ -1,8 +1,8 @@
 import React from "react";
 import data from "./data.json";
-import Select from "../common/Select"
+import Select from "../common/Select";
 
-const EducationDetails = ({ formData, setFormData, errors }) => {
+const EducationDetails = ({ formData, setFormData, errors, setErrors }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -10,15 +10,18 @@ const EducationDetails = ({ formData, setFormData, errors }) => {
       ...prev,
       [name]: value,
     }));
-  };
 
+    // Remove the error for the field being edited
+    setErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
+  };
 
   const fields = data.education;
   return (
     <div className="flex flex-col gap-4">
-      <h1 className = "text-center font-bold text-xl">
-        EDUCATIONAL DETAILS
-      </h1>
+      <h1 className="text-center font-bold text-xl">EDUCATIONAL DETAILS</h1>
       {fields.info.map((field, index) => (
         <div key={field.name} className="mb-4">
           <label className="font-bold text-cyan-700 block mb-1">
@@ -29,10 +32,9 @@ const EducationDetails = ({ formData, setFormData, errors }) => {
               name={field.name}
               value={formData[field.name] || ""}
               onChange={handleChange}
-              options = {field.options}
+              options={field.options}
               className="border p-2 rounded w-full"
             />
-             
           ) : (
             <input
               name={field.name}
@@ -45,9 +47,7 @@ const EducationDetails = ({ formData, setFormData, errors }) => {
           )}
 
           {errors[field.name] && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors[field.name]}
-            </p>
+            <p className="text-red-500 text-sm mt-1">{errors[field.name]}</p>
           )}
         </div>
       ))}

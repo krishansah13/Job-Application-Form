@@ -81,6 +81,7 @@ const FormContainer = () => {
                 formData={formData}
                 setFormData={setFormData}
                 errors={errors}
+                setErrors = {setErrors}
               />
 
               {/* Navigation */}

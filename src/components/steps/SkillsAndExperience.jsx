@@ -10,7 +10,7 @@ import {
   removeSkill,
 } from "../utils/skillsAndExperience";
 
-const SkillsAndExperience = ({ formData, setFormData, errors }) => {
+const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
   const fields = data.skillsAndExperience;
   const isFresher = Number(formData.experience || 0) === 0;
 
@@ -91,7 +91,7 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
                 placeholder={field.placeholder}
                 value={formData[field.name] || ""}
                 onChange={(e) =>
-                  handleChange(e, setFormData, formData, isFresher)
+                  handleChange(e, setFormData, formData, isFresher, setErrors)
                 }
                 rows={4}
               />
@@ -115,7 +115,7 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
                   type="checkbox"
                   checked={formData[field.name] || false}
                   onChange={(e) =>
-                    handleChange(e, setFormData, formData, isFresher)
+                    handleChange(e, setFormData, formData, isFresher, setErrors)
                   }
                   disabled={isFresher}
                 />
@@ -127,7 +127,7 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
                 placeholder={field.placeholder}
                 value={formData[field.name] || ""}
                 onChange={(e) =>
-                  handleChange(e, setFormData, formData, isFresher)
+                  handleChange(e, setFormData, formData, isFresher, setErrors)
                 }
                 disabled={
                   (isFresher &&

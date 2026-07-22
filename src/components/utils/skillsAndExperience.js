@@ -1,4 +1,4 @@
-const handleChange = (event, setFormData, formData, isFresher) => {
+const handleChange = (event, setFormData, formData, isFresher, setErrors) => {
     const { name, value, type, checked } = event.target;
 
     setFormData((prev) => {
@@ -17,6 +17,12 @@ const handleChange = (event, setFormData, formData, isFresher) => {
         updated.checked = false;
       }
 
+      // Remove the error for the field being edited
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
+      
       return updated;
     });
 };
