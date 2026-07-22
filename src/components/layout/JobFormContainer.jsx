@@ -8,7 +8,7 @@ import ReviewAndSubmit from "../steps/ReviewAndSubmit";
 import EducationDetails from "../steps/EducationDetails";
 import SkillsAndExperience from "../steps/SkillsAndExperience";
 
-const FormContainer = () => {
+const JobFormContainer = () => {
   const pages = [
     PersonalInfo,
     EducationDetails,
@@ -127,4 +127,4 @@ const FormContainer = () => {
   );
 };
 
-export default FormContainer;
+export default JobFormContainer;
