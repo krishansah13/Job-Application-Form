@@ -1,10 +1,10 @@
 import React from "react";
-import FormContainer from "./components/layout/FormContainer";
+import JobFormContainer from "./components/layout/JobFormContainer";
 
 const App = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[url('assets/image.png')] bg-cover bg-center">
-      <FormContainer />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[url('images/image.webp')] bg-cover bg-center">
+      <JobFormContainer />
     </div>
   );
 };

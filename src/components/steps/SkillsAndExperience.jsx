@@ -1,56 +1,29 @@
-import React, { useState } from "react";
-import data from "./data.json";
-import TextArea from "../common/TextArea";
-import Input from "../common/Input";
+import React, { useState, useEffect } from "react";
 
-const SkillsAndExperience = ({ formData, setFormData, errors }) => {
+import data from "./data.json";
+import Input from "../common/Input";
+import TextArea from "../common/TextArea";
+
+import {
+  handleChange,
+  addSkill,
+  removeSkill,
+} from "../utils/skillsAndExperience";
+import useDebounce from "../hooks/useDebounce";
+
+const SkillsAndExperience = ({ formData, setFormData, errors, setErrors }) => {
   const fields = data.skillsAndExperience;
   const isFresher = Number(formData.experience || 0) === 0;
 
   const [skillInput, setSkillInput] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const [localData, setLocalData] = useState(formData);
 
-    setFormData((prev) => {
-      const updated = {
-        ...prev,
-        [name]: type === "checkbox" ? checked : value,
-      };
+  const debounceData = useDebounce(localData);
 
-      if (name === "currentlyWorking" && checked) {
-        updated.leavingDate = "";
-      }
-
-      if (isFresher) {
-        updated.joiningDate = "";
-        updated.leavingDate = "";
-        updated.checked = false;
-      }
-
-      return updated;
-    });
-  };
-
-  const addSkill = () => {
-    const trimmedSkill = skillInput.trim();
-
-    if (!trimmedSkill) return;
-
-    setFormData((prev) => ({
-      ...prev,
-      skills: [...(prev.skills || []), trimmedSkill],
-    }));
-
-    setSkillInput("");
-  };
-
-  const removeSkill = (index) => {
-    setFormData((prev) => ({
-      ...prev,
-      skills: prev.skills.filter((_, i) => i !== index),
-    }));
-  };
+  useEffect(() => {
+    setFormData(debounceData);
+  }, [debounceData]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -62,6 +35,7 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
             <div key={field.name} className="mb-4">
               <label className="font-bold text-cyan-700 block mb-2">
                 {fields.labels[index]}
+                <span className="text-red-500 text-xs align-super">*</span>
               </label>
 
               {/* Skill Input */}
@@ -72,12 +46,26 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
                     placeholder="Enter your skill"
                     value={skillInput}
                     onChange={(e) => setSkillInput(e.target.value)}
+                    onKeyDown={(e) => {
+                    console.log(e.key);
+                    e.key === "Enter" &&
+                      addSkill(
+                        skillInput,
+                        setSkillInput,
+                        setLocalData,
+                        localData,
+                      );
+                  }}
                   />
+                  
                 </div>
 
                 <button
                   type="button"
-                  onClick={addSkill}
+                  onClick={() =>
+                    addSkill(skillInput, setSkillInput, setLocalData, localData)
+                  }
+                  
                   className="bg-cyan-600 hover:bg-cyan-700 text-white px-5 rounded-lg cursor-pointer"
                 >
                   Add
@@ -86,7 +74,7 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
 
               {/* Added Skills */}
               <div className="flex flex-wrap gap-2 mt-4">
-                {(formData.skills || []).map((skill, skillIndex) => (
+                {(localData.skills || []).map((skill, skillIndex) => (
                   <div
                     key={skillIndex}
                     className="flex items-center gap-2 bg-cyan-100 text-cyan-700 px-3 py-2 rounded-full"
@@ -95,7 +83,9 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
 
                     <button
                       type="button"
-                      onClick={() => removeSkill(skillIndex)}
+                      onClick={() =>
+                        removeSkill(skillIndex, setLocalData, localData)
+                      }
                       className="text-red-600 font-bold hover:text-red-800 cursor-pointer"
                     >
                       ✕
@@ -115,19 +105,26 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
           <div key={field.name} className="mb-4">
             <label className="font-bold text-cyan-700 block mb-1">
               {fields.labels[index]}
+              {(field.name === "experience" || field.name === "coverNote" || localData.experience !== "0") && (
+                <span className="text-red-500 text-xs align-super">*</span>
+              )}
             </label>
 
             {field.type === "textarea" ? (
               <TextArea
                 name={field.name}
                 placeholder={field.placeholder}
-                value={formData[field.name] || ""}
-                onChange={handleChange}
+                value={localData[field.name] || ""}
+                onChange={(e) =>
+                  handleChange(e, setLocalData, localData, isFresher, setErrors)
+                }
                 rows={4}
               />
             ) : field.type === "checkbox" ? (
-              <label className="w-full border rounded-lg px-4 py-3 flex items-center justify-between 
-              cursor-pointer hover:border-cyan-500 transition">
+              <label
+                className="w-full border rounded-lg px-4 py-3 flex items-center justify-between 
+              cursor-pointer hover:border-cyan-500 transition"
+              >
                 <span
                   className={
                     isFresher
@@ -141,8 +138,16 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
                 <Input
                   name={field.name}
                   type="checkbox"
-                  checked={formData[field.name] || false}
-                  onChange={handleChange}
+                  checked={localData[field.name] || false}
+                  onChange={(e) =>
+                    handleChange(
+                      e,
+                      setLocalData,
+                      localData,
+                      isFresher,
+                      setErrors,
+                    )
+                  }
                   disabled={isFresher}
                 />
               </label>
@@ -151,8 +156,10 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
                 name={field.name}
                 type={field.type}
                 placeholder={field.placeholder}
-                value={formData[field.name] || ""}
-                onChange={handleChange}
+                value={localData[field.name] || ""}
+                onChange={(e) =>
+                  handleChange(e, setLocalData, localData, isFresher, setErrors)
+                }
                 disabled={
                   (isFresher &&
                     [
@@ -162,12 +169,12 @@ const SkillsAndExperience = ({ formData, setFormData, errors }) => {
                       "jobTitle",
                       "noticePeriod",
                     ].includes(field.name)) ||
-                  (field.name === "leavingDate" && formData.currentlyWorking) ||
-                  (field.name === "noticePeriod" && !formData.currentlyWorking)
+                  (field.name === "leavingDate" && localData.currentlyWorking) ||
+                  (field.name === "noticePeriod" && !localData.currentlyWorking)
                 }
                 min={
                   field.name === "leavingDate"
-                    ? formData.joiningDate || undefined
+                    ? localData.joiningDate || undefined
                     : undefined
                 }
                 max={
